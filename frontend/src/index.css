@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@import "@fontsource/pixelify-sans/400.css";
+@import "@fontsource/pixelify-sans/700.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/700.css";
+@import "@fontsource/nunito/400.css";
+@import "@fontsource/nunito/700.css";
+@import "@fontsource/vt323/400.css";
+@import "@fontsource/space-grotesk/400.css";
+@import "@fontsource/space-grotesk/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/orbitron/400.css";
+@import "@fontsource/orbitron/700.css";
+@import "@fontsource/rajdhani/400.css";
+@import "@fontsource/rajdhani/600.css";
+@import "@fontsource/fredoka/400.css";
+@import "@fontsource/fredoka/600.css";
+
+:root {
+  --bg: #0d0b0c; --panel: #171314; --panel-alt: #221b1d; --line: #3a2f31;
+  --primary: #c8283a; --secondary: #7a7477; --accent: #ff5a4d; --glow: #ff2d3f;
+  --ink: #efe9ea; --ink-muted: #948a8c; --on-primary: #fff1f2;
+  --f-head: "Pixelify Sans", monospace; --f-body: "IBM Plex Mono", monospace;
+  --radius: 0px; --bw: 2px; --case: uppercase;
+  --shadow: 4px 4px 0 0 var(--line); --btn-shadow: 3px 3px 0 0 var(--ink);
+  --press-x: 3px; --press-y: 3px;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-alt: var(--panel-alt);
+  --color-line: var(--line);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-glow: var(--glow);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --font-pixel: var(--f-head);
+  --font-body: var(--f-body);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3 { font-family: var(--f-head); letter-spacing: 0.03em; }
+
+input:not([type="range"]), select, textarea {
+  border-width: var(--bw);
+  border-radius: var(--radius);
+}
+
+.px-panel {
+  background: var(--panel);
+  border: var(--bw) solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.px-btn {
+  font-family: var(--f-head);
+  text-transform: var(--case);
+  background: var(--primary);
+  color: var(--on-primary);
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--btn-shadow);
+  padding: 0.5rem 1rem;
+}
+.px-btn:active {
+  transform: translate(var(--press-x), var(--press-y));
+  box-shadow: none;
+}
+
+.px-glow { box-shadow: 0 0 0 2px var(--accent), 0 0 14px 0 var(--glow); }

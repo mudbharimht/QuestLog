@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#111111">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Quest Log</title>
+</head>
+<body 
+class="bg-black text-red-50 min-h-screen p-4 font-sans"
+>
+  <h1 
+  class="text-2xl font-bold text-red-500 mb-6 tracking-wide"
+  >Quest Log</h1>
+
+<details class="mb-8 bg-zinc-900 border border-red-900 rounded-xl">
+  <summary class="cursor-pointer select-none px-4 py-3 text-red-500 font-semibold">
+    Manage Metrics
+  </summary>
+
+  <div class="p-4 pt-0">
+    <form id="metric-form" class="flex flex-col gap-3 mb-4">
+      <input type="text" id="name-input" placeholder="Metric name" required
+        class="bg-black border border-red-800 rounded-lg px-3 py-2 text-red-50 placeholder-red-900 focus:outline-none focus:border-red-500">
+      <input type="text" id="type-input" placeholder="Type (number, boolean, text)" required
+        class="bg-black border border-red-800 rounded-lg px-3 py-2 text-red-50 placeholder-red-900 focus:outline-none focus:border-red-500">
+      <button type="submit"
+        class="bg-red-800 hover:bg-red-700 text-white font-semibold rounded-lg py-2 transition-colors">
+        Add Metric
+      </button>
+    </form>
+
+    <ul id="metric-list" class="space-y-2"></ul>
+  </div>
+</details>
+<details class="mb-8 bg-zinc-900 border border-red-900 rounded-xl">
+  <summary class="cursor-pointer select-none px-4 py-3 text-red-500 font-semibold">
+    Manage Tasks
+  </summary>
+
+  <div class="p-4 pt-0">
+    <form id="task-form" class="flex flex-col gap-3 mb-4">
+      <input type="text" id="task-title-input" placeholder="Task title" required
+        class="bg-black border border-red-800 rounded-lg px-3 py-2 text-red-50 placeholder-red-900 focus:outline-none focus:border-red-500">
+      <input type="number" id="task-energy-input" placeholder="Energy cost (1-10)" min="1" max="10" required
+        class="bg-black border border-red-800 rounded-lg px-3 py-2 text-red-50 placeholder-red-900 focus:outline-none focus:border-red-500">
+      <input type="number" id="task-mood-input" placeholder="Mood cost (1-10)" min="1" max="10" required
+        class="bg-black border border-red-800 rounded-lg px-3 py-2 text-red-50 placeholder-red-900 focus:outline-none focus:border-red-500">
+      <button type="submit"
+        class="bg-red-800 hover:bg-red-700 text-white font-semibold rounded-lg py-2 transition-colors">
+        Add Task
+      </button>
+    </form>
+
+    <ul id="task-list" class="space-y-2"></ul>
+  </div>
+</details>
+
+<div class="bg-zinc-900 border border-red-900 rounded-xl p-4 mb-8">
+  <label class="block text-red-500 mb-1">Energy: <span id="energy-value">5</span></label>
+  <input type="range" id="energy-slider" min="1" max="10" value="5" class="w-full mb-4">
+
+  <label class="block text-red-500 mb-1">Mood: <span id="mood-value">5</span></label>
+  <input type="range" id="mood-slider" min="1" max="10" value="5" class="w-full mb-4">
+
+  <button id="suggest-btn" class="bg-red-800 hover:bg-red-700 text-white font-semibold rounded-lg py-2 w-full">
+    Check In
+  </button>
+</div>
+
+<div id="suggestion-list" class="space-y-2 mb-8"></div>
+  <h2
+  class="text-xl font-bold text-red-500 mb-4 tracking-wide"
+  >Log an Entry</h2>
+<form id="log-form"
+class="bg-zinc-900 border border-red-900 rounded-xl p-4 mb-6 flex flex-col gap-3"
+>
+  <select id="metric-select"
+  class="bg-black border border-red-800 rounded-lg px-3 py-2 text-red-50 focus:outline-none focus:border-red-500"
+  ></select>
+  <input type="text" id="value-input" placeholder="Value" required
+  class="bg-black border border-red-800 rounded-lg px-3 py-2 text-red-50 placeholder-red-900 focus:outline-none focus:border-red-500"
+  >
+  <input type="text" id="note-input" placeholder="Note (optional)"
+  class="bg-black border border-red-800 rounded-lg px-3 py-2 text-red-50 placeholder-red-900 focus:outline-none focus:border-red-500"
+  >
+  <button type="submit"
+  class="bg-red-800 hover:bg-red-700 text-white font-semibold rounded-lg py-2 transition-colors"
+  >Add Log</button>
+</form>
+
+<table class="w-full text-left border-collapse">
+  <thead>
+    <tr class="text-red-500 text-sm border-b border-red-900">
+      <th class="py-2 pr-3">Date/Time</th>
+      <th class="py-2 pr-3">Metric</th>
+      <th class="py-2 pr-3">Value</th>
+      <th class="py-2">Note</th>
+    </tr>
+  </thead>
+  <tbody id="log-list"></tbody>
+</table>
+
+  <script>
+
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/static/service-worker.js");
+}
+
+async function postLog(metricID, logValue, logNote){
+  const response= await fetch("/logs", { 
+      method: "POST", 
+      headers: { "Content-Type": "application/json" }, 
+      body: JSON.stringify({ 
+          metric_id: metricID ,
+          value: logValue,
+          note: logNote 
+      })
+    });
+  return await response.json();
+}
+
+const form = document.getElementById("metric-form");
+form.addEventListener("submit", async (event)=>{
+  event.preventDefault()
+
+  const metricName = (document.getElementById("name-input")).value;
+  const metricType = (document.getElementById("type-input")).value;
+  await fetch("/metrics", { 
+      method: "POST", 
+      headers: { "Content-Type": "application/json" }, 
+      body: JSON.stringify({ 
+          name: metricName ,
+          type: metricType 
+      })
+    });
+    loadMetrics();
+});
+
+const taskForm = document.getElementById("task-form");
+
+taskForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const title = document.getElementById("task-title-input").value;
+  const energyCost = parseInt(document.getElementById("task-energy-input").value);
+  const moodCost = parseInt(document.getElementById("task-mood-input").value);
+
+  await fetch("/tasks", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: title, energyCost: energyCost, moodCost: moodCost })
+  });
+
+  document.getElementById("task-title-input").value = "";
+  document.getElementById("task-energy-input").value = "";
+  document.getElementById("task-mood-input").value = "";
+
+  loadTasks();
+});
+
+async function loadTasks() {
+  const response = await fetch("/tasks");
+  const tasks = await response.json();
+
+  const taskList = document.getElementById("task-list");
+  taskList.innerHTML = "";
+
+  for (const task of tasks) {
+    const li = document.createElement("li");
+    li.className = "bg-zinc-900 border border-red-950 rounded-lg px-3 py-2 flex justify-between";
+    li.innerHTML = `<span>${task.title}</span><span class="text-red-800 text-sm">E:${task.energyCost} M:${task.moodCost} — ${task.status}</span>`;
+    taskList.appendChild(li);
+  }
+}
+
+const logform = document.getElementById("log-form");
+logform.addEventListener("submit", async (event)=>{
+  event.preventDefault()
+
+  const metricID = parseInt((document.getElementById("metric-select")).value);
+  const logValue = (document.getElementById("value-input")).value;
+  const logNote = (document.getElementById("note-input")).value;
+
+  await postLog(metricID, logValue, logNote);
+  
+  loadLogs();
+});
+
+    async function loadLogs() {
+        const responselogs = await fetch("/logs");
+        const logs = await responselogs.json();
+
+        const loglist = document.getElementById("log-list")
+        loglist.innerHTML ="";
+
+        for (const log of logs){
+
+            const li= document.createElement("li");
+            const value = log.value_number ?? log.value_bool ?? log.value_text;
+            const dateObj = new Date(log.timestamp);
+            const formatted = dateObj.toLocaleString(undefined, { month: "short", day: "numeric" });
+            const tr = document.createElement("tr");
+            tr.className = "border-b border-zinc-800";
+            tr.innerHTML = `
+            <td class="py-2 pr-3 text-red-800 text-sm whitespace-nowrap">${formatted}</td>
+            <td class="py-2 pr-3">${log.metric_name}</td>
+            <td class="py-2 pr-3">${value}</td>
+            <td class="py-2 text-zinc-400">${log.note ?? ""}</td>
+            `;
+            loglist.appendChild(tr);
+        }
+    }
+
+    async function loadMetrics() {
+        const response = await fetch("/metrics");
+        const metrics = await response.json();
+        
+        const metricList = document.getElementById("metric-list")
+        metricList.innerHTML="";
+
+        const metricSelectList = document.getElementById("metric-select")
+        metricSelectList.innerHTML="";
+
+        for (const metric of metrics){
+            const li= document.createElement("li");
+            li.textContent = `${metric.name} (${metric.type})`;
+
+            const option = document.createElement("option");
+            option.value = `${metric.id}`;
+            option.textContent = `${metric.name}`;
+
+            metricList.appendChild(li);
+            metricSelectList.appendChild(option);
+
+
+        }
+    }
+
+    loadMetrics();
+    
+    loadLogs();
+
+    const energySlider = document.getElementById("energy-slider");
+    const energyValue = document.getElementById("energy-value");
+    const moodSlider = document.getElementById("mood-slider");
+    const moodValue = document.getElementById("mood-value");
+    const suggestButton = document.getElementById("suggest-btn")
+    energySlider.addEventListener("input",async (event)=>{
+    energyValue.textContent = energySlider.value;
+    
+  })
+    moodSlider.addEventListener("input", async (event)=>{
+      moodValue.textContent = moodSlider.value;
+   })
+   suggestButton.addEventListener("click", async (event)=>{
+      const energyVal = energySlider.value;
+      const moodVal = moodSlider.value;
+      const response= await fetch("/metrics");
+      const metrics = await response.json();
+      const energyMetric  = metrics.find(m => m.role === "energy");
+      const moodMetric  = metrics.find(m => m.role === "mood");
+
+      
+      await postLog(energyMetric.id, energyVal, "");
+      await postLog(moodMetric.id, moodVal, "")
+
+      const responseSuggest = await fetch("/tasks/suggest");
+      const suggestions = await responseSuggest.json();
+        
+        const suggestionList = document.getElementById("suggestion-list")
+        suggestionList.innerHTML="";
+
+
+        for (const suggestion of suggestions){
+            const li= document.createElement("li");
+            li.textContent = `${suggestion.title} (energy: ${suggestion.energyCost}, mood: ${suggestion.moodCost})`;
+            suggestionList.appendChild(li);
+        }
+  loadLogs();
+
+   })
+  </script>
+</body>
+</html>
