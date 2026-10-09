@@ -7,6 +7,7 @@ export const themes = {
     radius: "0px", bw: "2px", case: "uppercase",
     shadow: "4px 4px 0 0 var(--line)", "btn-shadow": "3px 3px 0 0 var(--ink)",
     "press-x": "3px", "press-y": "3px",
+    "facet-1": "#ff5a4d", "facet-2": "#c8283a", "facet-3": "#7a1620", "facet-hi": "#ff8f85",
   },
   "Enchanted Cottage": {
     bg: "#1b2419", panel: "#243022", "panel-alt": "#2e3c2b", line: "#4a5d43",
@@ -16,6 +17,7 @@ export const themes = {
     radius: "16px", bw: "2px", case: "none",
     shadow: "0 6px 16px rgb(0 0 0 / 0.30)", "btn-shadow": "0 3px 0 0 rgb(0 0 0 / 0.35)",
     "press-x": "0px", "press-y": "3px",
+    "facet-1": "#a8c97f", "facet-2": "#7fa650", "facet-3": "#4a5d43", "facet-hi": "#f0c987",
   },
   "Amber CRT": {
     bg: "#120e05", panel: "#1c1608", "panel-alt": "#2a210c", line: "#4d3d14",
@@ -25,6 +27,7 @@ export const themes = {
     radius: "0px", bw: "2px", case: "uppercase",
     shadow: "0 0 12px 0 rgb(255 176 0 / 0.22)", "btn-shadow": "0 0 10px 0 rgb(255 176 0 / 0.45)",
     "press-x": "0px", "press-y": "2px",
+    "facet-1": "#ffd25e", "facet-2": "#ffb000", "facet-3": "#7a5200", "facet-hi": "#fff3c4",
   },
   "Paper Light": {
     bg: "#efe8d8", panel: "#f7f2e6", "panel-alt": "#e4dcc8", line: "#cfc5ad",
@@ -34,6 +37,7 @@ export const themes = {
     radius: "6px", bw: "1px", case: "none",
     shadow: "0 1px 3px rgb(0 0 0 / 0.12)", "btn-shadow": "0 1px 0 0 rgb(0 0 0 / 0.30)",
     "press-x": "0px", "press-y": "1px",
+    "facet-1": "#e8a317", "facet-2": "#d1453b", "facet-3": "#7a2620", "facet-hi": "#ffd9c9",
   },
   "Vapor Dusk": {
     bg: "#14102b", panel: "#1e1840", "panel-alt": "#2a2258", line: "#4b3f8f",
@@ -43,6 +47,7 @@ export const themes = {
     radius: "2px", bw: "2px", case: "uppercase",
     shadow: "0 0 18px 0 rgb(123 92 255 / 0.30)", "btn-shadow": "0 0 14px 0 rgb(255 110 199 / 0.55)",
     "press-x": "0px", "press-y": "2px",
+    "facet-1": "#a996ff", "facet-2": "#7b5cff", "facet-3": "#3a2f7a", "facet-hi": "#ffb8ec",
   },
   "Sakura Pop": {
     bg: "#fff3f7", panel: "#ffffff", "panel-alt": "#ffe4ee", line: "#f3b7cd",
@@ -52,5 +57,6 @@ export const themes = {
     radius: "20px", bw: "2px", case: "none",
     shadow: "0 4px 0 0 var(--line)", "btn-shadow": "0 4px 0 0 rgb(0 0 0 / 0.20)",
     "press-x": "0px", "press-y": "3px",
+    "facet-1": "#ffb3cf", "facet-2": "#e0457b", "facet-3": "#b8305f", "facet-hi": "#ffe1ec",
   },
 }

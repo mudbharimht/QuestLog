@@ -82,3 +82,35 @@ input:not([type="range"]), select, textarea {
 }
 
 .px-glow { box-shadow: 0 0 0 2px var(--accent), 0 0 14px 0 var(--glow); }
+
+
+@keyframes breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50%      { transform: translate(-50%, -50%) scale(1.06); }
+}
+.zone-calm {
+  animation: breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes unsettle {
+  0%   { transform: translate(-50%, -50%) scale(1)     rotate(0deg); }
+  20%  { transform: translate(-50%, -50%) scale(1.03)  rotate(-1.5deg); }
+  45%  { transform: translate(-50%, -50%) scale(0.98)  rotate(1deg); }
+  70%  { transform: translate(-50%, -50%) scale(1.04)  rotate(-1deg); }
+  100% { transform: translate(-50%, -50%) scale(1)     rotate(0deg); }
+}
+.zone-unsettled {
+  animation: unsettle 1.4s ease-in-out infinite;
+}
+
+@keyframes jitter {
+  0%   { transform: translate(-50%, -50%) translate(0, 0); }
+  20%  { transform: translate(-50%, -50%) translate(-2px, 1px); }
+  40%  { transform: translate(-50%, -50%) translate(2px, -2px); }
+  60%  { transform: translate(-50%, -50%) translate(-1px, -1px); }
+  80%  { transform: translate(-50%, -50%) translate(1.5px, 2px); }
+  100% { transform: translate(-50%, -50%) translate(0, 0); }
+}
+.zone-jittery {
+  animation: jitter 0.18s linear infinite;
+}

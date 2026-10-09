@@ -100,7 +100,7 @@ export default function Log() {
         <table className="w-full text-left text-sm">
           <thead>
             <tr className="font-pixel text-accent border-b-2 border-line">
-              <th className="p-2">WHEN</th>
+              <th className="p-2">DATE</th>
               <th className="p-2">METRIC</th>
               <th className="p-2">VALUE</th>
               <th className="p-2">NOTE</th>
@@ -113,8 +113,7 @@ export default function Log() {
               return (
                 <tr key={l.id} className="border-b border-line">
                   <td className="p-2 text-ink-muted whitespace-nowrap">
-                    {when.toLocaleDateString(undefined, { month: "short", day: "numeric" })}{" "}
-                    {when.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}
+                    {when.toLocaleDateString(undefined, { month: "short", day: "numeric" })}
                   </td>
                   <td className="p-2">{l.metric_name}</td>
                   <td className="p-2 font-pixel">

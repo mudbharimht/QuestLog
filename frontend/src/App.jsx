@@ -3,14 +3,16 @@ import { useTheme } from "./themes/useTheme"
 import Today from "./screens/Today"
 import Manage from "./screens/Manage"
 import Tasks from "./screens/Tasks"
-import Log from "./screens/Log"
+//import Log from "./screens/Log"
+import Body from "./screens/Body"
 import { useState } from "react"
 
 const tabs = [
   { id: "today", label: "TODAY" },
-  { id: "log", label: "LOG" },
+ // { id: "log", label: "LOG" },
   { id: "tasks", label: "TASKS" },
   { id: "manage", label: "MANAGE" },
+  {id:"body",label: "BODY"},
 ]
 export default function App() {
   const [theme, setTheme] = useTheme()
@@ -33,9 +35,10 @@ export default function App() {
 
       <main className="p-4">
         {screen === "today" && <Today />}
-        {screen === "log" && <Log />}
+        {/* {screen === "log" && <Log />} */}
         {screen === "tasks" && <Tasks />}
         {screen === "manage" && <Manage />}
+        {screen ==="body"&&<Body/>}
       </main>
 
       <nav

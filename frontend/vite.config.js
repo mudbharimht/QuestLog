@@ -11,6 +11,7 @@ export default defineConfig({
       '/metrics':'http://127.0.0.1:8000',
       '/logs':'http://127.0.0.1:8000',
       '/tasks':'http://127.0.0.1:8000',
+      '/zones': 'http://127.0.0.1:8000',
     },
   },
 })
