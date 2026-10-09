@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { getMetrics, createMetric, updateMetric, deleteMetric } from "../api/client"
 
-const BODY_PARTS = ["head", "left_arm", "right_arm", "heart", "torso", "legs"]
+const BODY_PARTS = ["head", "heart", "torso", "arms", "legs"]
 const CATEGORIES = ["discipline", "body", "mind", "order", "social"]
 
 export default function Manage() {

@@ -25,9 +25,11 @@ export function postLog(metricId, value, note, timestamp) {
     body: JSON.stringify(body)
   });
 }
-export function getRecentLogs(limit = 50) {
-  return request(`/logs/recent?limit=${limit}`)
+export function getRecentLogs(limit = 50, metricId = null) {
+  const extra = metricId ? `&metric_id=${metricId}` : ""
+  return request(`/logs/recent?limit=${limit}${extra}`)
 }
+
 export function getTasks() {
   return request("/tasks")
 }
@@ -51,7 +53,12 @@ export function createTask(title, energyCost, moodCost, cooldownDays, roomZone) 
   });
 }
 
-
+export async function updateTask(taskId, updates) {
+    return request(`/tasks/${taskId}`, {
+        method: "PATCH",
+        body: JSON.stringify(updates),
+    });
+}
 export function completeTask(taskId) {
   return request(`/tasks/${taskId}/complete`, { method: "PATCH" })
 }

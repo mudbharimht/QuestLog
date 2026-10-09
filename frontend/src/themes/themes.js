@@ -59,4 +59,48 @@ export const themes = {
     "press-x": "0px", "press-y": "3px",
     "facet-1": "#ffb3cf", "facet-2": "#e0457b", "facet-3": "#b8305f", "facet-hi": "#ffe1ec",
   },
+  "Moss Dungeon": {
+    bg: "#101b16", panel: "#192920", "panel-alt": "#243b2d", line: "#3d6048",
+    primary: "#75b879", secondary: "#6e9276", accent: "#e0b86c", glow: "#72e09a",
+    ink: "#e0f0df", "ink-muted": "#91ad96", "on-primary": "#102017",
+    "f-head": '"Pixelify Sans", monospace', "f-body": '"IBM Plex Mono", monospace',
+    radius: "3px", bw: "2px", case: "uppercase",
+    shadow: "4px 4px 0 0 var(--line)", "btn-shadow": "3px 3px 0 0 var(--ink)",
+    "press-x": "3px", "press-y": "3px",
+    "facet-1": "#a8edaa", "facet-2": "#75b879", "facet-3": "#315c40", "facet-hi": "#e0ffc2",
+  },
+
+  "Oceanic Depths": {
+    bg: "#071923", panel: "#0e2938", "panel-alt": "#15384a", line: "#285568",
+    primary: "#22b8b0", secondary: "#518caa", accent: "#ffb86b", glow: "#26e6d5",
+    ink: "#dff7ff", "ink-muted": "#86b4c6", "on-primary": "#061d25",
+    "f-head": '"Orbitron", sans-serif', "f-body": '"Rajdhani", sans-serif',
+    radius: "8px", bw: "2px", case: "uppercase",
+    shadow: "0 0 18px 0 rgb(38 230 213 / 0.16)", "btn-shadow": "0 0 10px 0 rgb(38 230 213 / 0.3)",
+    "press-x": "0px", "press-y": "2px",
+    "facet-1": "#63f3dc", "facet-2": "#22b8b0", "facet-3": "#17617a", "facet-hi": "#d1fff8",
+  },
+
+  "Midnight Library": {
+    bg: "#171622", panel: "#211f30", "panel-alt": "#302b43", line: "#504661",
+    primary: "#b49ae8", secondary: "#8b88ae", accent: "#e8c994", glow: "#c3a5ff",
+    ink: "#f0eafb", "ink-muted": "#aaa1bd", "on-primary": "#171622",
+    "f-head": '"Fraunces", serif', "f-body": '"Nunito", sans-serif',
+    radius: "10px", bw: "1px", case: "none",
+    shadow: "0 6px 18px rgb(0 0 0 / 0.25)", "btn-shadow": "0 3px 0 0 rgb(0 0 0 / 0.3)",
+    "press-x": "0px", "press-y": "2px",
+    "facet-1": "#d0b9ff", "facet-2": "#9d83d4", "facet-3": "#51416f", "facet-hi": "#fff0cb",
+  },
+
+  "Pocket Console": {
+    bg: "#202820", panel: "#303b30", "panel-alt": "#414d3c", line: "#627054",
+    primary: "#b4d58b", secondary: "#91a87b", accent: "#e6d78b", glow: "#c8f59a",
+    ink: "#e5f2d5", "ink-muted": "#a5b99a", "on-primary": "#202820",
+    "f-head": '"VT323", monospace', "f-body": '"IBM Plex Mono", monospace',
+    radius: "2px", bw: "2px", case: "uppercase",
+    shadow: "3px 3px 0 0 var(--line)", "btn-shadow": "2px 2px 0 0 var(--ink)",
+    "press-x": "2px", "press-y": "2px",
+    "facet-1": "#e1f7a9", "facet-2": "#b4d58b", "facet-3": "#647d56", "facet-hi": "#ffffff",
+  },
+
 }

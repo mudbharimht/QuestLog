@@ -12,6 +12,7 @@ export default defineConfig({
       '/logs':'http://127.0.0.1:8000',
       '/tasks':'http://127.0.0.1:8000',
       '/zones': 'http://127.0.0.1:8000',
+      '/stats': 'http://127.0.0.1:8000',
     },
   },
 })

@@ -10,7 +10,7 @@ from database import init_db, engine
 from models import (
     Metric, MetricCreate, MetricUpdate,
     LogEntry, LogEntryCreate,
-    Task, TaskCreate,
+    Task, TaskCreate, TaskUpdate,
     CategoryStat,
 )
 
@@ -171,12 +171,16 @@ def read_logs():
         return [_serialize_log(l) for l in logs]
 
 @app.get("/logs/recent")
-def read_recent_logs(limit: int = 50):
+def read_recent_logs(limit: int = 50, metric_id: int | None = None):
     with Session(engine) as session:
-        statement = select(LogEntry).order_by(LogEntry.timestamp.desc()).limit(limit)
+        statement = select(LogEntry)
+        if metric_id is not None:
+            statement = statement.where(LogEntry.metric_id == metric_id)
+        statement = statement.order_by(LogEntry.timestamp.desc()).limit(limit)
         logs = session.exec(statement).all()
         return [_serialize_log(l) for l in logs]
 
+    
 @app.delete("/logs/{logId}")
 def delete_log(logId: int):
     with Session(engine) as session:
@@ -215,6 +219,26 @@ def delete_task(taskId: int):
         session.delete(deletingTask)
         session.commit()
     return {"message": "deleted task"}
+
+@app.patch("/tasks/{taskId}")
+def edit_task(taskId: int, update: TaskUpdate):
+    with Session(engine) as session:
+        editingTask = session.get(Task, taskId)
+
+        if editingTask is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Task not found"
+            )
+
+        for key, value in update.model_dump(exclude_unset=True).items():
+            setattr(editingTask, key, value)
+
+        session.commit()
+        session.refresh(editingTask)
+
+    return editingTask
+
 
 @app.patch("/tasks/{taskId}/complete")
 def complete_task(taskId: int):
@@ -333,12 +357,48 @@ def score_task(task):
 
 @app.get("/metrics/body-status")
 def body_status():
+    cutoff = datetime.utcnow() - timedelta(days=7)
+
     with Session(engine) as session:
-        metrics = session.exec(select(Metric).where(Metric.body_part != None)).all()
-        return [
-            {"id": m.id, "name": m.name, "body_part": m.body_part, "score": score_metric(session, m)}
-            for m in metrics
-        ]
+        metrics = session.exec(
+            select(Metric).where(Metric.body_part != None)
+        ).all()
+
+        result = []
+
+        for metric in metrics:
+            logs = session.exec(
+                select(LogEntry)
+                .where(
+                    LogEntry.metric_id == metric.id,
+                    LogEntry.timestamp >= cutoff,
+                )
+                .order_by(LogEntry.timestamp.desc())
+            ).all()
+
+            result.append({
+                "id": metric.id,
+                "name": metric.name,
+                "body_part": metric.body_part,
+                "score": score_metric(session, metric),
+                "logs": [
+                    {
+                        "id": log.id,
+                        "metric_id": log.metric_id,
+                        "metric_name": metric.name,
+                        "timestamp": log.timestamp,
+                        "value_number": log.value_number,
+                        "value_bool": log.value_bool,
+                        "value_text": log.value_text,
+                        "note": log.note,
+                    }
+                    for log in logs
+                ],
+            })
+
+        return result
+
+
 
 @app.get("/tasks/zone-status")
 def task_zone_status():

@@ -28,6 +28,10 @@
   --radius: 0px; --bw: 2px; --case: uppercase;
   --shadow: 4px 4px 0 0 var(--line); --btn-shadow: 3px 3px 0 0 var(--ink);
   --press-x: 3px; --press-y: 3px;
+  --facet-1: #ff5a4d;
+  --facet-2: #c8283a;
+  --facet-3: #7a1620;
+  --facet-hi: #ff8f85;
 }
 
 @theme inline {
@@ -83,34 +87,63 @@ input:not([type="range"]), select, textarea {
 
 .px-glow { box-shadow: 0 0 0 2px var(--accent), 0 0 14px 0 var(--glow); }
 
-
 @keyframes breathe {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50%      { transform: translate(-50%, -50%) scale(1.06); }
+  0%, 100% { scale: 1; }
+  50% { scale: 1.04; }
 }
+
 .zone-calm {
+  transform-box: fill-box;
+  transform-origin: center;
   animation: breathe 3.2s ease-in-out infinite;
 }
 
 @keyframes unsettle {
-  0%   { transform: translate(-50%, -50%) scale(1)     rotate(0deg); }
-  20%  { transform: translate(-50%, -50%) scale(1.03)  rotate(-1.5deg); }
-  45%  { transform: translate(-50%, -50%) scale(0.98)  rotate(1deg); }
-  70%  { transform: translate(-50%, -50%) scale(1.04)  rotate(-1deg); }
-  100% { transform: translate(-50%, -50%) scale(1)     rotate(0deg); }
+  0%, 100% { rotate: 0deg; scale: 1; }
+  25% { rotate: -1deg; scale: 1.02; }
+  75% { rotate: 1deg; scale: 0.99; }
 }
+
 .zone-unsettled {
+  transform-box: fill-box;
+  transform-origin: center;
   animation: unsettle 1.4s ease-in-out infinite;
 }
 
 @keyframes jitter {
-  0%   { transform: translate(-50%, -50%) translate(0, 0); }
-  20%  { transform: translate(-50%, -50%) translate(-2px, 1px); }
-  40%  { transform: translate(-50%, -50%) translate(2px, -2px); }
-  60%  { transform: translate(-50%, -50%) translate(-1px, -1px); }
-  80%  { transform: translate(-50%, -50%) translate(1.5px, 2px); }
-  100% { transform: translate(-50%, -50%) translate(0, 0); }
+  0%, 100% { translate: 0 0; }
+  25% { translate: -3px 0; }
+  50% { translate: 3px 0; }
+  75% { translate: 0 3px; }
 }
+
 .zone-jittery {
-  animation: jitter 0.18s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: jitter 0.35s linear infinite;
+}
+
+.body-zone-alert path {
+  animation: body-alert 0.65s ease-in-out infinite alternate;
+  stroke: var(--accent);
+  stroke-width: 2.5px;
+}
+
+@keyframes body-alert {
+  from {
+    fill-opacity: 0.55;
+    filter: drop-shadow(0 0 2px var(--accent));
+  }
+
+  to {
+    fill-opacity: 1;
+    filter: drop-shadow(0 0 9px var(--accent));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body-zone-alert path {
+    animation: none;
+    fill-opacity: 1;
+  }
 }

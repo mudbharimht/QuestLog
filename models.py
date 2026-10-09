@@ -76,3 +76,10 @@ class TaskCreate(SQLModel):
     moodCost: int
     cooldown_days: int = 0
     room_zone: Optional[str] = None
+
+class TaskUpdate(SQLModel):
+    title: str
+    energyCost: int
+    moodCost: int
+    cooldown_days: int = 0
+    room_zone: Optional[str] = None

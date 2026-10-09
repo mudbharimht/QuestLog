@@ -5,18 +5,17 @@ import Manage from "./screens/Manage"
 import Tasks from "./screens/Tasks"
 //import Log from "./screens/Log"
 import Body from "./screens/Body"
+import Home from "./screens/Home"
 import { useState } from "react"
 
 const tabs = [
-  { id: "today", label: "TODAY" },
- // { id: "log", label: "LOG" },
+  { id: "home", label: "HOME" },
   { id: "tasks", label: "TASKS" },
   { id: "manage", label: "MANAGE" },
-  {id:"body",label: "BODY"},
 ]
 export default function App() {
   const [theme, setTheme] = useTheme()
-  const [screen, setScreen] = useState("today")
+  const [screen, setScreen] = useState("home")
 
   return (
     <div className="min-h-screen pb-24">
@@ -34,11 +33,9 @@ export default function App() {
       </header>
 
       <main className="p-4">
-        {screen === "today" && <Today />}
-        {/* {screen === "log" && <Log />} */}
+        {screen === "home" && <Home />}
         {screen === "tasks" && <Tasks />}
         {screen === "manage" && <Manage />}
-        {screen ==="body"&&<Body/>}
       </main>
 
       <nav
